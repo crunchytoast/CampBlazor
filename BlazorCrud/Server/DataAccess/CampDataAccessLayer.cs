@@ -33,11 +33,11 @@ namespace BlazorCrud.Server.DataAccess
         }
 
         //To Add new Camp record     
-        public void AddCamp(Camp Camp)
+        public void AddCamp(Camp camp)
         {
             try
             {
-                db.Camp.Add(Camp);
+                db.Camp.Add(camp);
                 db.SaveChanges();
             }
             catch
@@ -79,8 +79,8 @@ namespace BlazorCrud.Server.DataAccess
         {
             try
             {
-                Camp emp = db.Camp.Find(id);
-                db.Camp.Remove(emp);
+                Camp cmp = db.Camp.Find(id);
+                db.Camp.Remove(cmp);
                 db.SaveChanges();
             }
             catch

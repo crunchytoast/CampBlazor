@@ -1,0 +1,46 @@
+﻿@page "/editCamp/{campID:int}"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h2>Edit Camp</h2>
+<hr />
+
+<EditForm Model="@camp" OnValidSubmit="UpdateCamp">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label class="control-label col-md-12">Name</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="camp.CampName" />
+        </div>
+        <ValidationMessage For="@(() => camp.CampName)" />
+    </div>
+    
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int campID { get; set; }
+
+    Camp camp = new Camp();
+
+    protected override async Task OnInitializedAsync()
+    {
+        camp = await Http.GetJsonAsync<Camp>("/api/Camp/Details/" + campID);
+    }
+
+    protected async Task UpdateCamp()
+    {
+        await Http.SendJsonAsync(HttpMethod.Put, "api/Camp/Edit", camp);
+        urlNavigationManager.NavigateTo("/fetchCamp");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchCamp");
+    }
+}

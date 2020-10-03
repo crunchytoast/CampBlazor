@@ -1,0 +1,50 @@
+﻿@page "/fetchCamp"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+
+<h1>Camp Data</h1>
+
+
+<p>
+    <a href="/addCamp">Create New</a>
+</p>
+@*
+    @if (cmpList == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cmp in cmpList)
+                {
+                    <tr>
+                        <td>@cmp.CampId</td>
+                        <td>@cmp.CampName</td>
+
+                        <td>
+                            <a href='/editCamp/@cmp.CampId'>Edit</a>  |
+                            <a href='/deleteCamp/@cmp.CampId'>Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    @code {
+
+        Camp[] cmpList;
+
+        protected override async Task OnInitializedAsync()
+        {
+            cmpList = await Http.GetJsonAsync<Camp[]>("/api/Camp/All");
+        }
+    }*@
