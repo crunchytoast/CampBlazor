@@ -1,0 +1,58 @@
+﻿@page "/delete/{empID:int}"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h2>Delete Teacher</h2>
+<h3>Are you sure you want to delete Teacher with id : @empID</h3>
+<br />
+
+<div class="col-md-4">
+    <table class="table">
+        <tr>
+            <td>Teacher Name</td>
+            <td>@emp.TeacherName</td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>@emp.Gender</td>
+        </tr>
+        <tr>
+            <td>Colour</td>
+            <td style="background-color:@emp.Colour">@emp.Colour</td>
+        </tr>
+        <tr>
+            <td>City</td>
+            <td>@emp.School</td>
+        </tr>
+    </table>
+    <div class="form-group">
+        <button class="btn btn-danger" @onclick="(async () => await Delete())">Delete</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int empID { get; set; }
+
+    Teacher emp = new Teacher();
+
+    protected override async Task OnInitializedAsync()
+    {
+        emp = await Http.GetJsonAsync<Teacher>("/api/Teacher/Details/" + empID);
+    }
+
+    protected async Task Delete()
+    {
+        await Http.DeleteAsync("api/Teacher/Delete/" + Convert.ToInt32(empID));
+        urlNavigationManager.NavigateTo("/fetchTeacher");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchTeacher");
+    }
+
+
+}

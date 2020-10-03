@@ -1,0 +1,70 @@
+﻿@page "/editTeacher/{empID:int}"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h2>Edit Employee</h2>
+<hr />
+
+<EditForm Model="@emp" OnValidSubmit="UpdateTeacher">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label class="control-label col-md-12">Name</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="emp.TeacherName" />
+        </div>
+        <ValidationMessage For="@(() => emp.TeacherName)" />
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-md-12">Gender</label>
+        <div class="col-md-4">
+            <select asp-for="Gender" class="form-control" @bind="emp.Gender">
+                <option value="">-- Select Gender --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+        <span><ValidationMessage For="@(() => emp.Gender)" /></span>
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-md-12">Color</label>
+        <div class="col-md-4">
+            <input type="color" name="emp.Color" @bind-value="emp.Colour" />
+        </div>
+        <span><ValidationMessage For="@(() => emp.Colour)" /></span>
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-md-12">City</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="emp.School" />
+        </div>
+        <span><ValidationMessage For="@(() => emp.School)" /></span>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int empID { get; set; }
+
+    Teacher emp = new Teacher();
+
+    protected override async Task OnInitializedAsync()
+    {
+        emp = await Http.GetJsonAsync<Teacher>("/api/Teacher/Details/" + empID);
+    }
+
+    protected async Task UpdateTeacher()
+    {
+        await Http.SendJsonAsync(HttpMethod.Put, "api/Teacher/Edit", emp);
+        urlNavigationManager.NavigateTo("/fetchTeacher");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchTeacher");
+    }
+}

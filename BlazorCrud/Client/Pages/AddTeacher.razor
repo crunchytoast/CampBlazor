@@ -1,0 +1,65 @@
+﻿@page "/addteacher"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h1>Create Teacher</h1>
+<hr />
+
+<EditForm Model="@emp" OnValidSubmit="CreateTeacher">
+    <DataAnnotationsValidator />
+     <div class="form-group row">
+            <label class="control-label col-md-12">Name</label>
+            <div class="col-md-4">
+                <input class="form-control" @bind="emp.TeacherName" />
+            </div>
+            <ValidationMessage For="@(() => emp.TeacherName)" />
+        </div>
+    <div class="form-group row">
+        <label class="control-label col-md-12">Gender</label>
+        <div class="col-md-4">
+            <select class="form-control" @bind="emp.Gender">
+                <option value="">-- Select Gender --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Freak">Tank</option>
+            </select>
+        </div>
+        <ValidationMessage For="@(() => emp.Gender)" />
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-md-12">School</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="emp.School" />
+        </div>
+        <ValidationMessage For="@(() => emp.School)" />
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-md-12">Color</label>
+        <div class="col-md-4">
+            <input type="color" name="emp.Color" @bind-value="emp.Colour" />
+            <label for="body">Color</label>
+        </div>
+        <ValidationMessage For="@(() => emp.Colour)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    Teacher emp = new Teacher();
+
+    protected async Task CreateTeacher()
+    {
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Teacher/Create", emp);
+        urlNavigationManager.NavigateTo("/fetchteacher");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchteacher");
+    }
+}

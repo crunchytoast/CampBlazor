@@ -1,0 +1,55 @@
+﻿@page "/fetchTeacher"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+
+<h1>Teacher Data</h1>
+
+<p>This component demonstrates fetching Teacher data from the server.</p>
+
+<p>
+    <a href="/addTeacher">Create New</a>
+</p>
+
+@if (empList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Color</th>
+                <th>School</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var emp in empList)
+            {
+                <tr>
+                    <td>@emp.TeacherId</td>
+                    <td>@emp.TeacherName</td>
+                    <td>@emp.Gender</td>
+                    <td style="background-color:@emp.Colour">@emp.Colour</td>
+                    <td>@emp.School</td>
+                    <td>
+                        <a href='/editTeacher/@emp.TeacherId'>Edit</a>  |
+                        <a href='/delete/@emp.TeacherId'>Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+
+    Teacher[] empList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        empList = await Http.GetJsonAsync<Teacher[]>("/api/Teacher/All");
+    }
+}
