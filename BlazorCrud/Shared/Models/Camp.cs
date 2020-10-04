@@ -9,9 +9,9 @@ namespace BlazorCrud.Shared.Models
         [Required]
         public string CampName { get; set; }
         [Required]
-        public DateTime StartDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
         [Required]
-        public DateTime EndDate { get; set; }
+        public DateTimeOffset EndDate { get; set; }
         public int DIYs { get; set; }
     }
 }

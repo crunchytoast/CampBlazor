@@ -1,6 +1,12 @@
 ﻿@page "/"
 @using BlazorColorPicker
 @using BlazorCrud.Client.Shared
+@using BlazorDateRangePicker
+
+
+
+
+
 
 <h1>Welcome to Camp of Blazes</h1>
 
@@ -10,23 +16,59 @@ About as useful as brushing trees...
     <img src="https://www.cbc.ca/kidscbc2/content/the_feed/bugs_katydid.jpg" style="width: 25vw; min-width: 100px;" />
 </a>
 
-<h1>PickDates</h1>
+<hr />
+Test out this handy date range picker...
 
-<DatePicker InitialDate="DefaultDate" DateSelected="OnDateSelected"></DatePicker>
-<h4>Selected Date:@SelectedDate.ToString("dd/MM/yyyy hh:mm:ss tt");</h4>
 
-@code{
-    public DateTime DefaultDate { get; set; }
-    public DateTime SelectedDate { get; set; }
-    protected override void OnInitialized()
+<DateRangePicker @ref="Picker"
+                 Drops="DropsType.Up"
+                 OnRangeSelect="OnRangeSelect"
+ />
+
+<hr />
+
+@if (events.Count > 0)
+{
+    <h6 class="pt-2">Events:</h6>
+}
+@foreach (var e in events)
+{
+    <div class="alert alert-secondary" role="alert"><small>@e.Item2</small><small class="float-right">@e.Item1</small></div>
+}
+
+@code {
+    DateRangePicker Picker;
+
+
+    List<(DateTime, string)> events { get; set; } = new List<(DateTime, string)>();
+
+
+
+    public void OnRangeSelect(DateRange range)
     {
-        DefaultDate = DateTime.Now.Date.AddHours(6).AddMinutes(30);
-    }
-    public void OnDateSelected(DateTime dt)
-    {
-        SelectedDate = dt;
+        events.Add((DateTime.Now, $"Carter smells from: {range.Start} - {range.End}"));
     }
 }
 
+
+
+
+@*
+    <DatePicker InitialDate="DefaultDate" DateSelected="OnDateSelected"></DatePicker>
+    <h4>Selected Date:@SelectedDate.ToString("dd:MM:yyyy");</h4>
+
+    @code{
+        public DateTime DefaultDate { get; set; }
+        public DateTime SelectedDate { get; set; }
+        protected override void OnInitialized()
+        {
+            DefaultDate = DateTime.Now.Date;
+        }
+        public void OnDateSelected(DateTime dt)
+        {
+            SelectedDate = dt;
+        }
+    }
+*@
 
 

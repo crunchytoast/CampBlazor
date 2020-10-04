@@ -1,6 +1,7 @@
 ﻿@page "/addcamp"
 @using BlazorCrud.Shared.Models
-@using BlazorCrud.Client.Shared 
+@using BlazorCrud.Client.Shared
+@using BlazorDateRangePicker
 @inject HttpClient Http
 @inject NavigationManager urlNavigationManager
 
@@ -16,24 +17,23 @@
         </div>
         <ValidationMessage For="@(() => camp.CampName)" />
     </div>
+
     <div class="form-group row">
-        <label class="control-label col-md-12">Start Date</label>
-        <div class="md-form md-outline input-with-post-icon datepicker">
-            <input placeholder="Gotta start somewhere..." type="datetime" class="form-control" @bind="camp.StartDate" />
+        <label class="control-label col-md-12"> Date</label>
+        <div class="btn btn-sm btn-bd-light my-2 my-md-0">
+            <DateRangePicker @ref="Picker"
+                             Drops="DropsType.Up"
+                             OnRangeSelect="OnRangeSelect" />
+
         </div>
         <ValidationMessage For="@(() => camp.StartDate)" />
     </div>
-    <div class="form-group row">
-        <label class="control-label col-md-12">End Date</label>
-        <div class="md-form md-outline input-with-post-icon datepicker">
-            <input placeholder="...Nothing is forever" type="datetime" class="form-control" @bind="camp.EndDate" />
-        </div>
-        <ValidationMessage For="@(() => camp.EndDate)" />
-    </div>
+
+
     <div class="form-group row">
         <label class="control-label col-md-12">DIYs</label>
         <div class="col-md-4">
-            <input type="number"  @bind-value="camp.DIYs" />
+            <input type="number" @bind-value="camp.DIYs" />
         </div>
         <ValidationMessage For="@(() => camp.DIYs)" />
     </div>
@@ -44,16 +44,31 @@
 </EditForm>
 
 @code {
+
+    DateRangePicker Picker;
+
+
+    List<(DateTime, string)> events { get; set; } = new List<(DateTime, string)>();
+
+
+
+    public void OnRangeSelect(DateRange range)
+    {
+        
+        camp.EndDate = range.End;
+        camp.StartDate = range.Start;
+    }
+
     Camp camp = new Camp();
 
     protected async Task CreateCamp()
     {
         await Http.SendJsonAsync(HttpMethod.Post, "/api/Camp/Create", camp);
-        urlNavigationManager.NavigateTo("/fetchteacher");
+        urlNavigationManager.NavigateTo("/fetchCamp");
     }
 
     void Cancel()
     {
-        urlNavigationManager.NavigateTo("/fetchteacher");
+        urlNavigationManager.NavigateTo("/fetchCamp");
     }
 }
