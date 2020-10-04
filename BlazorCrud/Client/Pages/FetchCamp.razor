@@ -30,8 +30,8 @@ else
             {
                 <tr>
                     <td>@camp.CampName</td>
-                    <td>@camp.StartDate</td>
-                    <td>@camp.EndDate</td>
+                    <td>@camp.StartDate.ToString("MMM dd yyyy")</td>
+                    <td>@camp.EndDate.ToString("MMM dd yyyy")</td>
                     <td>@camp.DIYs</td>
                     <td>
                         <a href='/editCamp/@camp.CampId'>Edit</a>  |

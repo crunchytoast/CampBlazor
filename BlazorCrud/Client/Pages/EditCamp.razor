@@ -2,6 +2,7 @@
 @using BlazorCrud.Shared.Models
 @inject HttpClient Http
 @inject NavigationManager urlNavigationManager
+@using BlazorDateRangePicker
 
 <h2>Edit camp</h2>
 <hr />
@@ -15,20 +16,35 @@
         </div>
         <ValidationMessage For="@(() => camp.CampName)" />
     </div>
+
     <div class="form-group row">
         <label class="control-label col-md-12">Start Date</label>
-        <div class="md-form md-outline input-with-post-icon datepicker">
-            <input placeholder="Gotta start somewhere..." type="datetime" class="form-control" @bind="camp.StartDate" />
+        <div class="col-md-4">
+
+            <DateRangePicker Drops="DropsType.Up"
+                             SingleDatePicker="true"
+                             OnSelectionStart="OnSelectionStart"
+                             DateFormat="MMM dd yyyy"
+                             placeholder="@camp.StartDate.ToString("MMM dd yyyy")" />
+
         </div>
         <ValidationMessage For="@(() => camp.StartDate)" />
     </div>
+
     <div class="form-group row">
-        <label class="control-label col-md-12">End Date</label>
-        <div class="md-form md-outline input-with-post-icon datepicker">
-            <input placeholder="...Nothing is forever" type="datetime" class="form-control" @bind="camp.EndDate" />
+        <label class="control-label col-md-12">Start Date</label>
+        <div class="col-md-4">
+
+            <DateRangePicker Drops="DropsType.Up"
+                             SingleDatePicker="true"
+                             OnSelectionStart="OnSelectionStart2"
+                             DateFormat="MMM dd yyyy"
+                             placeholder="@camp.EndDate.ToString("MMM dd yyyy")" />
+
         </div>
         <ValidationMessage For="@(() => camp.EndDate)" />
     </div>
+
     <div class="form-group row">
         <label class="control-label col-md-12">DIYs</label>
         <div class="col-md-4">
@@ -45,6 +61,18 @@
 @code {
     [Parameter]
     public int campID { get; set; }
+
+    public void OnSelectionStart(DateTimeOffset start)
+    {
+        camp.StartDate = start;
+
+    }
+
+    public void OnSelectionStart2(DateTimeOffset end)
+    {
+        camp.EndDate = end;
+
+    }
 
     Camp camp = new Camp();
 

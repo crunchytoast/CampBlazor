@@ -10,10 +10,10 @@
 
 <h1>Welcome to Camp of Blazes</h1>
 
-About as useful as brushing trees...
+Carter smells...
 
-<a href="https://youtu.be/J5SpKVPnwMo">
-    <img src="https://www.cbc.ca/kidscbc2/content/the_feed/bugs_katydid.jpg" style="width: 25vw; min-width: 100px;" />
+<a href="https://www.newsweek.com/rabid-skunk-massachusetts-mother-1458696">
+    <img src="https://d.newsweek.com/en/full/1526562/skunk.webp?w=790&f=837816cdd09d1c0ad986949af0578422" style="width: 25vw; min-width: 100px;" />
 </a>
 
 <hr />
@@ -23,6 +23,8 @@ Test out this handy date range picker...
 <DateRangePicker @ref="Picker"
                  Drops="DropsType.Up"
                  OnRangeSelect="OnRangeSelect"
+                 DateFormat="MMM dd yyyy"
+                 placeholder="Select Dates..."
  />
 
 <hr />
@@ -33,7 +35,7 @@ Test out this handy date range picker...
 }
 @foreach (var e in events)
 {
-    <div class="alert alert-secondary" role="alert"><small>@e.Item2</small><small class="float-right">@e.Item1</small></div>
+    <div class="alert alert-secondary" role="alert"><small>@e.Item2</small></div>
 }
 
 @code {
@@ -46,7 +48,7 @@ Test out this handy date range picker...
 
     public void OnRangeSelect(DateRange range)
     {
-        events.Add((DateTime.Now, $"Carter smells from: {range.Start} - {range.End}"));
+        events.Add((DateTime.Now, $"Carter has smelt for a long time... though from {range.Start.ToString("MMM dd yyyy")} to {range.End.ToString("MMM dd yyyy")} the odour will be particularly atrocious."));
     }
 }
 

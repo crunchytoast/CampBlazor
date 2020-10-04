@@ -20,10 +20,12 @@
 
     <div class="form-group row">
         <label class="control-label col-md-12"> Date</label>
-        <div class="btn btn-sm btn-bd-light my-2 my-md-0">
-            <DateRangePicker @ref="Picker"
+        <div class="col-md-4">
+            <DateRangePicker 
                              Drops="DropsType.Up"
-                             OnRangeSelect="OnRangeSelect" />
+                             OnRangeSelect="OnRangeSelect"
+                             DateFormat="MMM dd yyyy"
+                             placeholder="Select Dates..."/>
 
         </div>
         <ValidationMessage For="@(() => camp.StartDate)" />
@@ -45,18 +47,13 @@
 
 @code {
 
-    DateRangePicker Picker;
-
-
-    List<(DateTime, string)> events { get; set; } = new List<(DateTime, string)>();
-
-
 
     public void OnRangeSelect(DateRange range)
     {
-        
+  
         camp.EndDate = range.End;
         camp.StartDate = range.Start;
+    
     }
 
     Camp camp = new Camp();
