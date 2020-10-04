@@ -26,6 +26,7 @@ namespace BlazorCrud.Server
         {
             services.AddMvc();
             services.AddTransient<ITeacher, TeacherDataAccessLayer>();
+            services.AddTransient<ICamp, CampDataAccessLayer>();
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
@@ -36,6 +37,7 @@ namespace BlazorCrud.Server
                 opts.UseSqlServer(
                     Configuration["ConnectionStrings:TankusConnection"]);
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,59 @@
+﻿@page "/addcamp"
+@using BlazorCrud.Shared.Models
+@using BlazorCrud.Client.Shared 
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h1>Create Camp</h1>
+<hr />
+
+<EditForm Model="@camp" OnValidSubmit="CreateCamp">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label class="control-label col-md-12">Name</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="camp.CampName" />
+        </div>
+        <ValidationMessage For="@(() => camp.CampName)" />
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-md-12">Start Date</label>
+        <div class="md-form md-outline input-with-post-icon datepicker">
+            <input placeholder="Gotta start somewhere..." type="datetime" class="form-control" @bind="camp.StartDate" />
+        </div>
+        <ValidationMessage For="@(() => camp.StartDate)" />
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-md-12">End Date</label>
+        <div class="md-form md-outline input-with-post-icon datepicker">
+            <input placeholder="...Nothing is forever" type="datetime" class="form-control" @bind="camp.EndDate" />
+        </div>
+        <ValidationMessage For="@(() => camp.EndDate)" />
+    </div>
+    <div class="form-group row">
+        <label class="control-label col-md-12">DIYs</label>
+        <div class="col-md-4">
+            <input type="number"  @bind-value="camp.DIYs" />
+        </div>
+        <ValidationMessage For="@(() => camp.DIYs)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    Camp camp = new Camp();
+
+    protected async Task CreateCamp()
+    {
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Camp/Create", camp);
+        urlNavigationManager.NavigateTo("/fetchteacher");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchteacher");
+    }
+}

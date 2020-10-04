@@ -1,0 +1,117 @@
+﻿<div class="row">
+    <div class="col-md-6">
+        <table>
+            <tr>
+                <td>
+                    <select class="form-control" @bind="Day">
+                        @for (int i = 1; i <= 31; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" @bind="Month">
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i">@Months[i - 1]</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" @bind="Year">
+                        @for (int i = DateTime.Now.Year; i <= DateTime.Now.Year + 3; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" @bind="Hour">
+                        @for (int i = 6; i <= 22; i++)
+                        {
+                            <option>@i</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" @bind="Minute">
+                        @for (int i = 0; i <= 12; i++)
+                        {
+                            <option value="@i">@Minutes[i]</option>
+                        }
+                    </select>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-info" @onclick="OnSelectClick">Select Date</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+
+@code {
+    public int Year { get; set; }
+    public int Month { get; set; }
+    public int Day { get; set; }
+    public int Hour { get; set; }
+    public int Minute { get; set; }
+
+    public string[] Months { get; set; } =
+    {
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+    };
+
+    public int[] Minutes { get; set; } =
+    {
+            0,
+            5,
+            10,
+            15,
+            20,
+            25,
+            30,
+            35,
+            40,
+            45,
+            50,
+            55,
+            60,
+
+    };
+
+    [Parameter]
+    public DateTime InitialDate { get; set; }
+
+    [Parameter]
+    public EventCallback<DateTime> DateSelected { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Day = InitialDate.Day;
+        Month = InitialDate.Month;
+        Year = InitialDate.Year;
+        Hour = InitialDate.Hour;
+        Minute = InitialDate.Minute;
+    }
+    public Task OnSelectClick()
+    {
+        DateTime dt = new DateTime(Year, Month, Day,Hour,Minutes[Minute],0,0);
+        return DateSelected.InvokeAsync(dt);
+    }
+
+
+}

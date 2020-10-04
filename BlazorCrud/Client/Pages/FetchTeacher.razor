@@ -19,7 +19,6 @@ else
     <table class='table'>
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Name</th>
                 <th>Gender</th>
                 <th>Color</th>
@@ -30,14 +29,13 @@ else
             @foreach (var emp in empList)
             {
                 <tr>
-                    <td>@emp.TeacherId</td>
                     <td>@emp.TeacherName</td>
                     <td>@emp.Gender</td>
                     <td style="background-color:@emp.Colour">@emp.Colour</td>
                     <td>@emp.School</td>
                     <td>
                         <a href='/editTeacher/@emp.TeacherId'>Edit</a>  |
-                        <a href='/delete/@emp.TeacherId'>Delete</a>
+                        <a href='/deleteTeacher/@emp.TeacherId'>Delete</a>
                     </td>
                 </tr>
             }
