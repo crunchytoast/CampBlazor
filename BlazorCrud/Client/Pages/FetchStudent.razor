@@ -1,0 +1,49 @@
+﻿@page "/fetchStudent"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+
+<h1>Student Data</h1>
+
+
+
+<p>
+    <a href="/addStudent">Create New</a>
+</p>
+
+@if (StudentList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>Name</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Student in StudentList)
+            {
+                <tr>
+                    <td>@Student.StudentName</td>
+
+                    <td>
+                        <a href='/editStudent/@Student.StudentId'>Edit</a>  |
+                        <a href='/deleteStudent/@Student.StudentId'>Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+
+    Student[] StudentList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        StudentList = await Http.GetJsonAsync<Student[]>("/api/Student/All");
+    }
+}

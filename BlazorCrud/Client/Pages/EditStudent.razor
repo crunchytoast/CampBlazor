@@ -1,0 +1,47 @@
+﻿@page "/editStudent/{StudentID:int}"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+@using BlazorDateRangePicker
+
+<h2>Edit Student</h2>
+<hr />
+
+<EditForm Model="@stu" OnValidSubmit="UpdateStudent">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label class="control-label col-md-12">Name</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="stu.StudentName" />
+        </div>
+        <ValidationMessage For="@(() => stu.StudentName)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int StudentID { get; set; }
+
+
+    Student stu = new Student();
+
+    protected override async Task OnInitializedAsync()
+    {
+        stu = await Http.GetJsonAsync<Student>("/api/Student/Details/" + StudentID);
+    }
+
+    protected async Task UpdateStudent()
+    {
+        await Http.SendJsonAsync(HttpMethod.Put, "api/Student/Edit", stu);
+        urlNavigationManager.NavigateTo("/fetchStudent");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchStudent");
+    }
+}

@@ -1,0 +1,43 @@
+﻿@page "/addStudent"
+@using BlazorCrud.Shared.Models
+@using BlazorCrud.Client.Shared
+@using BlazorDateRangePicker
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h1>Create Student</h1>
+<hr />
+
+<EditForm Model="@stu" OnValidSubmit="CreateStudent">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label class="control-label col-md-12">Name</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="stu.StudentName" />
+        </div>
+        <ValidationMessage For="@(() => stu.StudentName)" />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+
+
+
+    Student stu = new Student();
+
+    protected async Task CreateStudent()
+    {
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Student/Create", stu);
+        urlNavigationManager.NavigateTo("/fetchStudent");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchStudent");
+    }
+}

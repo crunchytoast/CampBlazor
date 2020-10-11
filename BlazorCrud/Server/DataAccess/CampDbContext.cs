@@ -9,6 +9,7 @@ namespace BlazorCrud.Server.DataAccess
             : base(options) { }
         public DbSet<Teacher> Teacher { get; set; }
         public DbSet<Camp> Camp { get; set; }
+        public DbSet<Student> Student { get; set; }
 
     }
 }
