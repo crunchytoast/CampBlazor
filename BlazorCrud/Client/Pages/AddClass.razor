@@ -1,0 +1,71 @@
+﻿@page "/addcamp"
+@using BlazorCrud.Shared.Models
+@using BlazorCrud.Client.Shared
+@using BlazorDateRangePicker
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h1>Create Camp</h1>
+<hr />
+
+<EditForm Model="@camp" OnValidSubmit="CreateCamp">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label class="control-label col-md-12">Name</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="camp.CampName" />
+        </div>
+        <ValidationMessage For="@(() => camp.CampName)" />
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-md-12"> Date</label>
+        <div class="col-md-4">
+            <DateRangePicker 
+                             Drops="DropsType.Up"
+                             OnRangeSelect="OnRangeSelect"
+                             DateFormat="MMM dd yyyy"
+                             placeholder="Select Dates..."/>
+
+        </div>
+        <ValidationMessage For="@(() => camp.StartDate)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label class="control-label col-md-12">DIYs</label>
+        <div class="col-md-4">
+            <input type="number" @bind-value="camp.DIYs" />
+        </div>
+        <ValidationMessage For="@(() => camp.DIYs)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+
+
+    public void OnRangeSelect(DateRange range)
+    {
+  
+        camp.EndDate = range.End;
+        camp.StartDate = range.Start;
+    
+    }
+
+    Camp camp = new Camp();
+
+    protected async Task CreateCamp()
+    {
+        await Http.SendJsonAsync(HttpMethod.Post, "/api/Camp/Create", camp);
+        urlNavigationManager.NavigateTo("/fetchCamp");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchCamp");
+    }
+}

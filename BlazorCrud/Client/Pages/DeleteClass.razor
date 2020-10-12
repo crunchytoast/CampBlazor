@@ -1,0 +1,58 @@
+﻿@page "/deletecamp/{campID:int}"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h2>Delete Camp</h2>
+<h3>Are you sure you want to delete Camp with id : @campID</h3>
+<br />
+
+<div class="col-md-4">
+    <table class="table">
+        <tr>
+            <td>Camp Name</td>
+            <td>@camp.CampName</td>
+        </tr>
+        <tr>
+            <td>Start Date</td>
+            <td>@camp.StartDate.ToString("MMM dd yyyy")</td>
+        </tr>
+        <tr>
+            <td>End Date</td>
+            <td >@camp.EndDate.ToString("MMM dd yyyy")</td>
+        </tr>
+        <tr>
+            <td>DIYs</td>
+            <td>@camp.DIYs</td>
+        </tr>
+    </table>
+    <div class="form-group">
+        <button class="btn btn-danger" @onclick="(async () => await Delete())">Delete</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int campID { get; set; }
+
+    Camp camp = new Camp();
+
+    protected override async Task OnInitializedAsync()
+    {
+        camp = await Http.GetJsonAsync<Camp>("/api/Camp/Details/" + campID);
+    }
+
+    protected async Task Delete()
+    {
+        await Http.DeleteAsync("api/Camp/Delete/" + Convert.ToInt32(campID));
+        urlNavigationManager.NavigateTo("/fetchCamp");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchCamp");
+    }
+
+
+}

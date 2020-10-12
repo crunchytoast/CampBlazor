@@ -27,6 +27,7 @@ namespace BlazorCrud.Server
             services.AddMvc();
             services.AddTransient<ITeacher, TeacherDataAccessLayer>();
             services.AddTransient<ICamp, CampDataAccessLayer>();
+            services.AddTransient<IStudent, StudentDataAccessLayer>();
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
