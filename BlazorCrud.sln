@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TankBase", "BlazorCrud\TankBase\TankBase.sqlproj", "{230FDA0E-1E1A-48D8-AF5D-BDB540B3F5E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,12 @@ Global
 		{027D0F72-2416-4A48-BB81-24C5BC2F4928}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{027D0F72-2416-4A48-BB81-24C5BC2F4928}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{027D0F72-2416-4A48-BB81-24C5BC2F4928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{230FDA0E-1E1A-48D8-AF5D-BDB540B3F5E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{230FDA0E-1E1A-48D8-AF5D-BDB540B3F5E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{230FDA0E-1E1A-48D8-AF5D-BDB540B3F5E2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{230FDA0E-1E1A-48D8-AF5D-BDB540B3F5E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{230FDA0E-1E1A-48D8-AF5D-BDB540B3F5E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{230FDA0E-1E1A-48D8-AF5D-BDB540B3F5E2}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
