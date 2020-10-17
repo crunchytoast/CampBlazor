@@ -5,7 +5,7 @@ namespace BlazorCrud.Shared.Models
 {
     public class Student
     {
-        public int StudentId { get; set; }
+        public int Id { get; set; }
         [Required]
         public string StudentName { get; set; }
        

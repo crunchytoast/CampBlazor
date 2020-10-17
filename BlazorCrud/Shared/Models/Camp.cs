@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using System.Collections.Generic;
 
 namespace BlazorCrud.Shared.Models
 {
@@ -13,5 +14,6 @@ namespace BlazorCrud.Shared.Models
         [Required]
         public DateTimeOffset EndDate { get; set; }
         public int DIYs { get; set; }
+        public List<Class> Classes { get; set; } 
     }
 }

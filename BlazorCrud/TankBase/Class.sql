@@ -4,6 +4,7 @@
 	[ClassDate] [datetimeoffset] NOT NULL,
 	[ClassStartTime] [datetime] NOT NULL,
 	[ClassEndTime] [datetime] NOT NULL,
-	[ClassSchool] varchar(250) NULL,
-	[ClassStudent] varchar(250) NULL,
+	[SchoolId] Int foreign key references School(Id) On Delete Cascade,
+	[TeacherId] Int foreign key references Teacher(id) On Delete Cascade,
+	[CampId] Int foreign key references Camp(Id) On Delete Cascade,
 )

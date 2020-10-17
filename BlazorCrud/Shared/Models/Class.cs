@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
+using BlazorCrud.Shared.Models;
 
 namespace BlazorCrud.Shared.Models
 {
     public class Class
     {
-        public int ClassId { get; set; }
+        public int Id { get; set; }
         [Required]
         public DateTimeOffset ClassDate { get; set; }
         [Required]
@@ -13,10 +14,13 @@ namespace BlazorCrud.Shared.Models
         [Required]
         public DateTimeOffset ClassEndTime { get; set; }
         [Required]
-        public string ClassSchool { get; set; }
-        public string ClassStudent { get; set; }
-
-
+        public int SchoolId { get; set; }
+        public School School { get; set; }
+        public int TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
+        public int CampId { get; set; }
+        public Camp Camp { get; set; }
+        
     }
 }
 
