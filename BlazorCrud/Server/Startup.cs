@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using BlazorCrud.Shared.Models;
 
 namespace BlazorCrud.Server
 {
@@ -28,6 +29,7 @@ namespace BlazorCrud.Server
             services.AddTransient<ITeacher, TeacherDataAccessLayer>();
             services.AddTransient<ICamp, CampDataAccessLayer>();
             services.AddTransient<IStudent, StudentDataAccessLayer>();
+            services.AddTransient<IClass, ClassDataAccessLayer>();
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(

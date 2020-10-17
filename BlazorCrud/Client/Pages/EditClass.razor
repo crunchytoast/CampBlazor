@@ -1,16 +1,14 @@
-﻿@page "/addClass"
+﻿@page "/editClass/{ClassID:int}"
 @using BlazorCrud.Shared.Models
-@using BlazorCrud.Client.Shared
-@using BlazorDateRangePicker
 @inject HttpClient Http
 @inject NavigationManager urlNavigationManager
+@using BlazorDateRangePicker
 
-<h1>Create Class</h1>
+<h2>Edit Class</h2>
 <hr />
 
-<EditForm Model="@Class" OnValidSubmit="CreateClass">
+<EditForm Model="@Class" OnValidSubmit="UpdateClass">
     <DataAnnotationsValidator />
-
     <div class="form-group row">
         <label class="control-label col-md-12"> Date</label>
         <div class="col-md-4">
@@ -18,7 +16,7 @@
                              Drops="DropsType.Up"
                              OnSelectionStart="OnSelectionStart"
                              DateFormat="MMM dd yyyy"
-                             placeholder="Select Dates..." />
+                             placeholder="Select Date..." />
 
         </div>
         <ValidationMessage For="@(() => Class.ClassDate)" />
@@ -64,20 +62,26 @@
 </EditForm>
 
 @code {
-
+    [Parameter]
+    public int ClassID { get; set; }
 
     public void OnSelectionStart(DateTimeOffset date)
     {
-
         Class.ClassDate = date;
 
     }
 
+
     Class Class = new Class();
 
-    protected async Task CreateClass()
+    protected override async Task OnInitializedAsync()
     {
-        await Http.SendJsonAsync(HttpMethod.Post, "/api/Class/Create", Class);
+        Class = await Http.GetJsonAsync<Class>("/api/Class/Details/" + ClassID);
+    }
+
+    protected async Task UpdateClass()
+    {
+        await Http.SendJsonAsync(HttpMethod.Put, "api/Class/Edit", Class);
         urlNavigationManager.NavigateTo("/fetchClass");
     }
 

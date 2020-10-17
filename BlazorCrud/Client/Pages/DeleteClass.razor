@@ -1,29 +1,29 @@
-﻿@page "/deletecamp/{campID:int}"
+﻿@page "/deleteClass/{ClassID:int}"
 @using BlazorCrud.Shared.Models
 @inject HttpClient Http
 @inject NavigationManager urlNavigationManager
 
-<h2>Delete Camp</h2>
-<h3>Are you sure you want to delete Camp with id : @campID</h3>
+<h2>Delete Class</h2>
+<h3>Are you sure you want to delete Class with id : @ClassID</h3>
 <br />
 
 <div class="col-md-4">
     <table class="table">
         <tr>
-            <td>Camp Name</td>
-            <td>@camp.CampName</td>
+            <td>Class Student</td>
+            <td>@Class.ClassStudent</td>
         </tr>
         <tr>
-            <td>Start Date</td>
-            <td>@camp.StartDate.ToString("MMM dd yyyy")</td>
+            <td>Date</td>
+            <td>@Class.ClassDate.ToString("MMM dd yyyy")</td>
         </tr>
         <tr>
-            <td>End Date</td>
-            <td >@camp.EndDate.ToString("MMM dd yyyy")</td>
+            <td>Start Time</td>
+            <td >@Class.ClassStartTime.ToString("HH:mm")</td>
         </tr>
         <tr>
-            <td>DIYs</td>
-            <td>@camp.DIYs</td>
+            <td>End Time</td>
+            <td>@Class.ClassEndTime.ToString("HH:mm")</td>
         </tr>
     </table>
     <div class="form-group">
@@ -34,24 +34,24 @@
 
 @code {
     [Parameter]
-    public int campID { get; set; }
+    public int ClassID { get; set; }
 
-    Camp camp = new Camp();
+    Class Class = new Class();
 
     protected override async Task OnInitializedAsync()
     {
-        camp = await Http.GetJsonAsync<Camp>("/api/Camp/Details/" + campID);
+        Class = await Http.GetJsonAsync<Class>("/api/Class/Details/" + ClassID);
     }
 
     protected async Task Delete()
     {
-        await Http.DeleteAsync("api/Camp/Delete/" + Convert.ToInt32(campID));
-        urlNavigationManager.NavigateTo("/fetchCamp");
+        await Http.DeleteAsync("api/Class/Delete/" + Convert.ToInt32(ClassID));
+        urlNavigationManager.NavigateTo("/fetchClass");
     }
 
     void Cancel()
     {
-        urlNavigationManager.NavigateTo("/fetchCamp");
+        urlNavigationManager.NavigateTo("/fetchClass");
     }
 
 

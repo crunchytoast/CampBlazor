@@ -3,12 +3,20 @@ using System;
 
 namespace BlazorCrud.Shared.Models
 {
-    public class Student
+    public class Class
     {
-        public int StudentId { get; set; }
+        public int ClassId { get; set; }
         [Required]
-        public string StudentName { get; set; }
-       
+        public DateTimeOffset ClassDate { get; set; }
+        [Required]
+        public DateTimeOffset ClassStartTime { get; set; }
+        [Required]
+        public DateTimeOffset ClassEndTime { get; set; }
+        [Required]
+        public string ClassSchool { get; set; }
+        public string ClassStudent { get; set; }
+
+
     }
 }
 

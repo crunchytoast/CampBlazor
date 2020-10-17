@@ -1,0 +1,57 @@
+﻿@page "/fetchClass"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+
+<h1>Class Data</h1>
+
+
+
+<p>
+    <a href="/addClass">Create New</a>
+</p>
+
+@if (ClassList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>School</th>
+       
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Class in ClassList)
+            {
+            <tr>
+                <td>@Class.ClassStudent</td>
+                <td>@Class.ClassDate.ToString("MMM dd yyyy")</td>
+                <td>@Class.ClassStartTime.ToString("HH:mm")</td>
+                <td>@Class.ClassEndTime.ToString("HH:mm")</td>
+                <td>@Class.ClassSchool</td>
+
+                <td>
+                    <a href='/editClass/@Class.ClassId'>Edit</a>  |
+                    <a href='/deleteClass/@Class.ClassId'>Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+
+    Class[] ClassList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ClassList = await Http.GetJsonAsync<Class[]>("/api/Class/All");
+    }
+}

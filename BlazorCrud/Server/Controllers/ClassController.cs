@@ -11,51 +11,51 @@ using Microsoft.AspNetCore.Mvc;
 namespace BlazorCrud.Server.Controllers
 {
     [Route("api/[controller]")]
-    public class CampController : Controller
+    public class ClassController : Controller
     {
-        private readonly ICamp objCamp;
+        private readonly IClass objClass;
 
-        public CampController(ICamp _objCamp)
+        public ClassController(IClass _objClass)
         {
-            objCamp = _objCamp;
+            objClass = _objClass;
         }
 
         [HttpGet]
         [Route("All")]
-        public IEnumerable<Camp> Index()
+        public IEnumerable<Class> Index()
         {
-            return objCamp.GetAllCamps();
+            return objClass.GetAllClasses();
         }
 
         [HttpPost]
         [Route("Create")]
-        public void Create([FromBody] Camp Camp)
+        public void Create([FromBody] Class Class)
         {
             if (ModelState.IsValid)
-                objCamp.AddCamp(Camp);
+                objClass.AddClass(Class);
         }
 
         [HttpGet]
         [Route("Details/{id}")]
-        public Camp Details(int id)
+        public Class Details(int id)
         {
 
-            return objCamp.GetCampData(id);
+            return objClass.GetClassData(id);
         }
 
         [HttpPut]
         [Route("Edit")]
-        public void Edit([FromBody]Camp Camp)
+        public void Edit([FromBody] Class Class)
         {
             if (ModelState.IsValid)
-                objCamp.UpdateCamp(Camp);
+                objClass.UpdateClass(Class);
         }
 
         [HttpDelete]
         [Route("Delete/{id}")]
         public void Delete(int id)
         {
-            objCamp.DeleteCamp(id);
+            objClass.DeleteClass(id);
         }
     }
 }

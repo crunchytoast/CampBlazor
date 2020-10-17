@@ -10,21 +10,21 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace BlazorCrud.Server.DataAccess
 {
-    public class CampDataAccessLayer: ICamp
+    public class ClassDataAccessLayer : IClass
     {
         private CampDbContext db;
 
-        public CampDataAccessLayer(CampDbContext ctx)
+        public ClassDataAccessLayer(CampDbContext ctx)
         {
             db = ctx;
         }
 
-        //To Get all Camps details   
-        public IEnumerable<Camp> GetAllCamps()
+        //To Get all Class details   
+        public IEnumerable<Class> GetAllClasses()
         {
             try
             {
-                return db.Camp.ToList();
+                return db.Class.ToList();
             }
             catch
             {
@@ -32,12 +32,12 @@ namespace BlazorCrud.Server.DataAccess
             }
         }
 
-        //To Add new Camp record     
-        public void AddCamp(Camp Camp)
+        //To Add new Class record     
+        public void AddClass(Class Class)
         {
             try
             {
-                db.Camp.Add(Camp);
+                db.Class.Add(Class);
                 db.SaveChanges();
             }
             catch
@@ -46,12 +46,12 @@ namespace BlazorCrud.Server.DataAccess
             }
         }
 
-        //To Update the records of a particluar employee    
-        public void UpdateCamp(Camp Camp)
+        //To Update the records of a particluar Class    
+        public void UpdateClass(Class Class)
         {
             try
             {
-                db.Entry(Camp).State = EntityState.Modified;
+                db.Entry(Class).State = EntityState.Modified;
                 db.SaveChanges();
             }
             catch
@@ -60,13 +60,13 @@ namespace BlazorCrud.Server.DataAccess
             }
         }
 
-        //Get the details of a particular employee    
-        public Camp GetCampData(int id)
+        //Get the details of a particular Class    
+        public Class GetClassData(int id)
         {
             try
             {
-                Camp Camp = db.Camp.Find(id);
-                return Camp;
+                Class Class = db.Class.Find(id);
+                return Class;
             }
             catch
             {
@@ -74,13 +74,13 @@ namespace BlazorCrud.Server.DataAccess
             }
         }
 
-        //To Delete the record of a particular employee    
-        public void DeleteCamp(int id)
+        //To Delete the record of a particular Class    
+        public void DeleteClass(int id)
         {
             try
             {
-                Camp emp = db.Camp.Find(id);
-                db.Camp.Remove(emp);
+                Class emp = db.Class.Find(id);
+                db.Class.Remove(emp);
                 db.SaveChanges();
             }
             catch

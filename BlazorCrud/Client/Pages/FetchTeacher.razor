@@ -42,12 +42,33 @@ else
         </tbody>
     </table>
 }
-@code {
 
-    Teacher[] empList;
+<hr />
+@if (empList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            -- Select Teacher --
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
-    protected override async Task OnInitializedAsync()
+            @foreach (var emp in empList)
+            {
+                <a class="dropdown-item" href="#">@emp.TeacherName</a>
+            }
+        </div>
+    </div>
+}
+    @code {
+
+        Teacher[] empList;
+
+protected override async Task OnInitializedAsync()
     {
         empList = await Http.GetJsonAsync<Teacher[]>("/api/Teacher/All");
     }
-}
+    }
