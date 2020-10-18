@@ -1,0 +1,56 @@
+﻿@page "/editUDate/{UDateID:int}"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+@using BlazorDateRangePicker
+
+<h2>Edit UDate</h2>
+<hr />
+
+<EditForm Model="@UDate" OnValidSubmit="UpdateUDate">
+    <DataAnnotationsValidator />
+    <div class="form-group row">
+        <label class="control-label col-md-12">Teacher ID</label>
+        <div class="col-md-4">
+            <input class="form-control" @bind="UDate.TeacherID" />
+        </div>
+        <ValidationMessage For="@(() => UDate.TeacherID)" />
+    </div>
+
+    <div class="form-group row">
+        <label class="control-label col-md-12">Date</label>
+        <div class="col-md-4">
+            <input type="datetime" class="form-control" @bind="UDate.Date" />
+        </div>
+        <ValidationMessage For="@(() => UDate.Date)" />
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public int UDateID { get; set; }
+
+
+
+    UDate UDate = new UDate();
+
+    protected override async Task OnInitializedAsync()
+    {
+        UDate = await Http.GetJsonAsync<UDate>("/api/UDate/Details/" + UDateID);
+    }
+
+    protected async Task UpdateUDate()
+    {
+        await Http.SendJsonAsync(HttpMethod.Put, "api/UDate/Edit", UDate);
+        urlNavigationManager.NavigateTo("/fetchUDate");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchUDate");
+    }
+}

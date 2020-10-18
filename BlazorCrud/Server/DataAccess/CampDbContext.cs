@@ -11,6 +11,7 @@ namespace BlazorCrud.Server.DataAccess
         public DbSet<Camp> Camp { get; set; }
         public DbSet<Student> Student { get; set; }
         public DbSet<Class> Class { get; set; }
+        public DbSet<UDate> UDate { get; set; }
 
     }
 }

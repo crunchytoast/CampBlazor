@@ -1,0 +1,56 @@
+﻿@page "/fetchUDate"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+
+<h1>UDate Data</h1>
+
+
+
+<p>
+    <a href="/addUDate">Create New</a>
+</p>
+
+@if (dtList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class='table'>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Date</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var UDate in dtList)
+                @foreach (var emp in empList)
+            {
+                <tr>
+                    <td value="@UDate.TeacherID">@emp.TeacherName</td>
+                    <td>@UDate.Date.ToString("MMM dd yyyy")</td>
+
+                    <td>
+                        <a href='/editUDate/@UDate.UDateID'>Edit</a>  |
+                        <a href='/deleteUDate/@UDate.UDateID'>Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        
+    </table>
+}
+@code {
+
+    UDate[] dtList;
+    Teacher[] empList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        dtList = await Http.GetJsonAsync<UDate[]>("/api/UDate/All");
+        empList = await Http.GetJsonAsync<Teacher[]>("/api/Teacher/All");
+    }
+}

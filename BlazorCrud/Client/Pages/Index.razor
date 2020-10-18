@@ -4,6 +4,7 @@
 @using BlazorDateRangePicker
 @using BlazorCrud.Shared.Models
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 
 
@@ -31,47 +32,64 @@ Test out this handy date range picker...
 
 <hr />
 
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        -- Select Teacher --
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-        @* @foreach (var emp in empList)
-        {
-            <a class="dropdown-item" href="#">@emp.TeacherName</a>
-        }*@
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datepicker'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        @*       <script suppress-error="BL9992" type="text/javascript">
+                $(function () {
+                    $('#datetimepicker1').datetimepicker();
+                });
+            </script>*@
     </div>
-    </div>
+</div>
 
-    @if (events.Count > 0)
+
+
+@if (events.Count > 0)
+{
+    <h6 class="pt-2">Events:</h6>
+}
+@foreach (var e in events)
+{
+    <div class="alert alert-secondary" role="alert"><small>@e.Item2</small></div>
+}
+
+
+        
+@code {
+    DateRangePicker Picker;
+
+
+    List<(DateTime, string)> events { get; set; } = new List<(DateTime, string)>();
+
+
+
+
+    public void OnRangeSelect(DateRange range)
     {
-        <h6 class="pt-2">Events:</h6>
+        events.Add((DateTime.Now, $"Carter has smelt for a long time... though from {range.Start.ToString("MMM dd yyyy")} to {range.End.ToString("MMM dd yyyy")} the odour will be particularly atrocious."));
     }
-    @foreach (var e in events)
+    Teacher[] empList;
+
+    protected override async Task OnInitializedAsync()
     {
-        <div class="alert alert-secondary" role="alert"><small>@e.Item2</small></div>
+        empList = await Http.GetJsonAsync<Teacher[]>("/api/Teacher/All");
+          
+        await JSRuntime.InvokeAsync<string>(
+                     "MyClass.multidatepicker", null
+                     );
     }
 
-    @code {
-        DateRangePicker Picker;
-
-
-        List<(DateTime, string)> events { get; set; } = new List<(DateTime, string)>();
-
-
-
-        public void OnRangeSelect(DateRange range)
-        {
-            events.Add((DateTime.Now, $"Carter has smelt for a long time... though from {range.Start.ToString("MMM dd yyyy")} to {range.End.ToString("MMM dd yyyy")} the odour will be particularly atrocious."));
-        }
-        Teacher[] empList;
-
-        protected override async Task OnInitializedAsync()
-        {
-            empList = await Http.GetJsonAsync<Teacher[]>("/api/Teacher/All");
-        }
-    }
+}
 
 
 

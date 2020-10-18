@@ -1,0 +1,51 @@
+﻿@page "/deleteUDate/{UDateID:int}"
+@using BlazorCrud.Shared.Models
+@inject HttpClient Http
+@inject NavigationManager urlNavigationManager
+
+<h2>Delete Unavailable Dates</h2>
+<h3>Are you sure you want to delete Date with id : @UDateID</h3>
+<br />
+
+<div class="col-md-4">
+    <table class="table">
+        <tr>
+            <td>TeacherID</td>
+            <td>@UDate.TeacherID</td>
+        </tr>
+        <tr>
+            <td> Date</td>
+            <td>@UDate.Date.ToString("MMM dd yyyy")</td>
+        </tr>
+
+    </table>
+    <div class="form-group">
+        <button class="btn btn-danger" @onclick="(async () => await Delete())">Delete</button>
+        <button class="btn btn-light" @onclick="Cancel">Cancel</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int UDateID { get; set; }
+
+    UDate UDate = new UDate();
+
+    protected override async Task OnInitializedAsync()
+    {
+        UDate = await Http.GetJsonAsync<UDate>("/api/UDate/Details/" + UDateID);
+    }
+
+    protected async Task Delete()
+    {
+        await Http.DeleteAsync("api/UDate/Delete/" + Convert.ToInt32(UDateID));
+        urlNavigationManager.NavigateTo("/fetchUDate");
+    }
+
+    void Cancel()
+    {
+        urlNavigationManager.NavigateTo("/fetchUDate");
+    }
+
+
+}
